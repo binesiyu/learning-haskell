@@ -90,11 +90,11 @@ syeMeLet x = let  (one,two,three,four,five,unknow) = ("one!","two!","three!","fo
                         _ -> unknow
 
 --Recursion
-lengthList :: [a] -> Int
+lengthList :: (Num b) => [a] -> b
 lengthList [] = 0
 lengthList (_:xs) = 1 + lengthList xs
 
-lengthList' :: [a] -> Int
+lengthList' :: (Num b) => [a] -> b
 lengthList' [] = 0
 lengthList' (_:xs) = lengthList xs + 1
 
@@ -103,3 +103,38 @@ quickSort [] = []
 quickSort (x:xs) = quickSort less ++ [x] ++ quickSort more
     where less = [y | y <- xs, x >= y]
           more = [y | y <- xs, x < y]
+
+maxNum :: (Ord a) => [a] -> a
+maxNum [] = error "Empty List"
+maxNum [x] = x
+maxNum (x:xs) = if x > max then x else max
+              where max = maxNum xs
+
+-- hight ord function
+foldlMy :: [a]->(b->a->b)->b->b
+foldlMy [] _ x = x
+foldlMy (x:xs) f acc = f (foldlMy xs f acc) x
+
+--base lib
+foldlMy' :: [a]->(b->a->b)->b->b
+foldlMy' [] _ x = x
+foldlMy' (x:xs) f acc = foldlMy xs f (f acc x)
+
+foldrMy :: [a]->(a->b->b)->b->b
+foldrMy [] _ x = x
+foldrMy (x:xs) f acc = foldrMy xs f (f x acc)
+
+--base lib
+foldrMy' :: [a]->(a->b->b)->b->b
+foldrMy' [] _ x = x
+foldrMy' (x:xs) f acc = f x (foldrMy xs f acc)
+
+foldlMyLength = foldlMy "test" (\acc _ ->1+acc) 0
+foldlMyLength' = foldlMy' "test" (\acc _ ->1+acc) 0
+foldrMyLength = foldrMy "test" (\_ acc ->1+acc) 0
+foldrMyLength' = foldrMy' "test" (\_ acc ->1+acc) 0
+
+foldlMyCount = foldlMy [1.. 10] (+) 0
+foldlMyCount' = foldlMy' [1.. 10] (+) 0
+foldrMyCount = foldrMy [1.. 10] (+) 0
+foldrMyCount' = foldrMy' [1.. 10] (+) 0
