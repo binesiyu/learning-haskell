@@ -38,5 +38,18 @@ instance YesNo Point where
 yesnoIf :: (YesNo y) => y -> a ->a ->a
 yesnoIf y yes no = if yesno y then yes else no
 
+newtype C a = C { getC :: a }  deriving (Show,Eq)
+
+instance Functor C where
+    fmap f (C a) = C (f a)
+
+instance Applicative C where
+    pure = C 
+    (C f) <*> (C a) = C (f a)
+
+instance Monad C where
+    return = C
+    (C a) >>= f = f a
+
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
