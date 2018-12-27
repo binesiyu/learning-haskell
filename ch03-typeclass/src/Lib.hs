@@ -53,3 +53,54 @@ instance Monad C where
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
+
+type Birds = Int
+type Pole = (Birds,Birds)
+
+pole :: Pole
+pole = (0,0)
+
+landLeft :: Birds -> Pole -> Pole
+landLeft n (left,right) = (left + n,right)
+
+landRight :: Birds -> Pole -> Pole
+landRight n (left,right) = (left,right + n)
+
+checkPole :: Pole -> Maybe Pole
+checkPole as@(left,right) = if abs(left-right) > 4 
+                               then Nothing 
+                               else Just as
+
+landL :: Birds -> Pole -> Maybe Pole
+landL n = checkPole . landLeft n
+
+landR :: Birds -> Pole -> Maybe Pole
+landR n = checkPole . landRight n
+
+
+newtype Writer w a = Writer { runWriter::(a,w)}
+
+instance Functor (Writer w) where
+    fmap f (Writer (a,w)) = Writer (f a,w)
+
+instance (Monoid w) => Applicative (Writer w) where
+    pure a = Writer (a,mempty)
+    (Writer (f,v)) <*> (Writer (a,u)) = Writer (f a, mappend v u)
+
+instance (Monoid w) => Monad (Writer w) where
+    return a = Writer (a,mempty)
+    (Writer (x,v)) >>= f = let (Writer (y,u)) = f x in Writer (y, mappend v u)
+
+
+logNum :: Int -> Writer [String] Int
+logNum x = Writer (x,["getNum " ++ show x])
+
+telLog :: String -> Writer [String] ()
+telLog s = Writer ((),[s]) 
+
+mulitLog :: Writer [String] Int
+mulitLog = do
+    a <- logNum 4
+    b <- logNum 5
+    telLog "add telLog"
+    return $ a * b

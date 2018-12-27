@@ -1,6 +1,6 @@
-name:                ch03-typeclass
+name:                ch04-io
 version:             0.1.0.0
-github:              "binesiyu/ch03-typeclass"
+github:              "binesiyu/ch04-io"
 license:             BSD3
 author:              "yubin"
 maintainer:          "1960028060@qq.com"
@@ -17,17 +17,16 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/binesiyu/ch03-typeclass#readme>
+description:         Please see the README on GitHub at <https://github.com/binesiyu/ch04-io#readme>
 
 dependencies:
 - base >= 4.7 && < 5
-- transformers >= 0.5 && < 1.0
 
 library:
   source-dirs: src
 
 executables:
-  ch03-typeclass-exe:
+  ch04-io-exe:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
@@ -35,10 +34,10 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - ch03-typeclass
+    - ch04-io
 
 tests:
-  ch03-typeclass-test:
+  ch04-io-test:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:
@@ -46,4 +45,4 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - ch03-typeclass
+    - ch04-io
