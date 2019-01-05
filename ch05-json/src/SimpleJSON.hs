@@ -1,6 +1,6 @@
 module SimpleJSON
     ( JValue(..)
-     ,renderJValue
+     ,renderJValueSimple
      ,putJValue
     ) where
 
@@ -14,21 +14,21 @@ data JValue = JString String
             | JArray [JValue]
               deriving (Eq, Ord, Show)
 
-renderJValue :: JValue -> String
-renderJValue (JString s)   = show s
-renderJValue (JNumber n)   = show n
-renderJValue (JBool True)  = "true"
-renderJValue (JBool False) = "false"
-renderJValue JNull         = "null"
+renderJValueSimple :: JValue -> String
+renderJValueSimple (JString s)   = show s
+renderJValueSimple (JNumber n)   = show n
+renderJValueSimple (JBool True)  = "true"
+renderJValueSimple (JBool False) = "false"
+renderJValueSimple JNull         = "null"
 
-renderJValue (JObject o) = "{" ++ pairs o ++ "}"
+renderJValueSimple (JObject o) = "{" ++ pairs o ++ "}"
   where pairs [] = ""
         pairs ps = intercalate ", " (map renderPair ps)
-        renderPair (k,v)   = show k ++ ": " ++ renderJValue v
+        renderPair (k,v)   = show k ++ ": " ++ renderJValueSimple v
 
-renderJValue (JArray a) = "[" ++ values a ++ "]"
+renderJValueSimple (JArray a) = "[" ++ values a ++ "]"
   where values [] = ""
-        values vs = intercalate ", " (map renderJValue vs)
+        values vs = intercalate ", " (map renderJValueSimple vs)
 
 putJValue :: JValue -> IO ()
-putJValue = putStrLn . renderJValue
+putJValue = putStrLn . renderJValueSimple
