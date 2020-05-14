@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a195df88c1bbab4d28bd72f878cb03f1f98048b1eb6823ce367af98eb866ea2a
+-- hash: 483a8748513f7c7774fce2094421fd4e460e3d3e353a1f6611ac383e5c398afb
 
 name:           ch06-quickcheckls
 version:        0.1.0.0
@@ -33,7 +33,8 @@ library
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      QuickCheck
+    , base >=4.7 && <5
   default-language: Haskell2010
 
 executable ch06-quickcheckls-exe
@@ -44,7 +45,8 @@ executable ch06-quickcheckls-exe
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      QuickCheck
+    , base >=4.7 && <5
     , ch06-quickcheckls
   default-language: Haskell2010
 
@@ -57,6 +59,7 @@ test-suite ch06-quickcheckls-test
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      QuickCheck
+    , base >=4.7 && <5
     , ch06-quickcheckls
   default-language: Haskell2010
