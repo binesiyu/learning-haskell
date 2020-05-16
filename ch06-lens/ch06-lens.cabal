@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 781d9baac6916e342e2bf20f41ccdcc6f67e6058e3984667eff4ebdf46d0ad07
+-- hash: 57438d5fffa8a6106330e65cb7f64d601e6ca0d9767712f10fd83bce7878b759
 
 name:           ch06-lens
 version:        0.1.0.0
@@ -34,6 +34,10 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , containers
+    , hspec
+    , lens
+    , mtl
   default-language: Haskell2010
 
 executable ch06-lens-exe
@@ -46,6 +50,10 @@ executable ch06-lens-exe
   build-depends:
       base >=4.7 && <5
     , ch06-lens
+    , containers
+    , hspec
+    , lens
+    , mtl
   default-language: Haskell2010
 
 test-suite ch06-lens-test
@@ -59,4 +67,8 @@ test-suite ch06-lens-test
   build-depends:
       base >=4.7 && <5
     , ch06-lens
+    , containers
+    , hspec
+    , lens
+    , mtl
   default-language: Haskell2010
