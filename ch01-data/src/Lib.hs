@@ -51,5 +51,15 @@ testPersonString1 = PersonG "1firstName" "1lastName" 35 178.0
 testPersonString2 :: PersonString'
 testPersonString2 = PersonG "2firstName" "2lastName" 35 178.0
 
+data TypePar a = TypePar a deriving(Show)
+
+testPar:: TypePar a -> String
+testPar (TypePar a) = "testPar"
+
+newtype TypeParNew a = TypeParNew a deriving(Show)
+
+testParNew:: TypeParNew a -> String
+testParNew (TypeParNew a) = "testParNew"
+
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
