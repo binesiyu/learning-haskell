@@ -25,5 +25,20 @@ landRight' n (left,right)
 banana :: Pole -> Maybe Pole
 banana _ = Nothing
 
+-- land :: Birds ->Birds -> Pole -> Maybe Pole
+-- land l r (left,right)
+--   | abs((left + l) - (right + r)) <= 3 = Just (left + l,right + r)
+--   | otherwise = Nothing
+
+land :: Birds ->Birds -> Pole -> Either String Pole
+land l r (left,right)
+  | abs((left + l) - (right + r)) <= 3 = Right (left + l,right + r)
+  | otherwise = Left $ "drop " ++ show l
+
+landLeft'' = flip land 0
+
+landRight'' = land 0
+
+
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
