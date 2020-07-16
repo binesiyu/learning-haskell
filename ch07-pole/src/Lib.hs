@@ -33,7 +33,7 @@ banana _ = Nothing
 land :: Birds ->Birds -> Pole -> Either String Pole
 land l r (left,right)
   | abs((left + l) - (right + r)) <= 3 = Right (left + l,right + r)
-  | otherwise = Left $ "drop " ++ show l
+  | otherwise = Left . concat . map ((flip (++) ",") . show) $ [l,r,left,right]
 
 landLeft'' = flip land 0
 
