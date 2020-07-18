@@ -2,6 +2,14 @@
 module Lib where
 
 -- ContMonad1.hs
+--
+fact_cps_k ::(Ord a,Num a) => a -> (a->t)->t
+fact_cps_k 0 k = k 1
+fact_cps_k n k = fact_cps_k (n-1) (\x->k (n*x))
+
+fact_cps_k' ::(Ord a,Num a) => a -> (a->t)->t
+fact_cps_k' 0 k = k 1
+fact_cps_k' n k = fact_cps_k' (n-1) (\x->let r = n*x in if r >10000 then k 1 else k r)
 
 newtype Cont r a = Cont {runCont :: (a -> r) -> r}
                  deriving Functor
@@ -18,7 +26,7 @@ instance Monad (Cont r) where
     -- ca         :: Cont r a = (a -> r) -> r
     -- acb        :: a -> Cont r b = a -> ((b -> r) -> r))
     -- ca >>= acb :: Cont r b = (b -> r) -> r
-    ca >>= acb = Cont $ \br -> runCont ca (\a -> runCont (acb a) (\b -> br b))
+    ca >>= acb = Cont $ \br -> runCont ca (\a -> runCont (acb a) br)
 
 
 fact_cps :: Int -> Cont r Int
@@ -72,6 +80,18 @@ fibs2 n = do
        n1 <- callCC $ \k -> (fibs2 (n - 1))
        n2 <- callCC $ \k -> (fibs2 (n - 2))
        return (n1 + n2)
+
+fooString :: Int -> Cont r String
+fooString x = callCC $ \k -> do
+    let y = x^2 +3
+    if (y > 20) then k "over twenty" else return (show $ y -4)
+
+
+quux :: Cont r Int
+quux = callCC $ \k -> k 5 >> k 3
+
+quux' :: (Int ->r) -> r
+quux' k = k 3
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
